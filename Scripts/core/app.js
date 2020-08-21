@@ -146,11 +146,25 @@ e.g. Bar - Orange - Banana */
     }
     function interfaceLogic() {
         spinButton.on("click", () => {
-            let reels = Reels();
-            leftReel.image = assets.getResult(reels[0]);
-            middleReel.image = assets.getResult(reels[1]);
-            rightReel.image = assets.getResult(reels[2]);
-            Credit(playerMoney);
+            let totalMoney = parseInt(playerMoney);
+            let bet = parseInt(betLabel.text);
+            if (totalMoney === 0) {
+                //window.alert("Not enough funds available");
+                let clickOK = confirm("Not enough funds available, please enter ok to restart!");
+                if (clickOK) {
+                    window.location.reload();
+                }
+            }
+            else if (bet > totalMoney) {
+                window.alert("Please bet regarding your funds!!");
+            }
+            else {
+                let reels = Reels();
+                leftReel.image = assets.getResult(reels[0]);
+                middleReel.image = assets.getResult(reels[1]);
+                rightReel.image = assets.getResult(reels[2]);
+                Credit(playerMoney);
+            }
         });
         bet1Button.on("click", () => {
             betLabel.text = "1";
@@ -165,6 +179,7 @@ e.g. Bar - Orange - Banana */
             betLabel.text = playerMoney;
         });
     }
+    //coverting string playerMoney value to int and then make it reverse to store string value to playerMoney
     function Credit(Money) {
         let money = parseInt(Money, 10);
         let bet = parseInt(betLabel.text, 10);

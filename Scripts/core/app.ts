@@ -186,12 +186,31 @@ e.g. Bar - Orange - Banana */
     {
         spinButton.on("click",()=>
         {
-            let reels=Reels();
+            let totalMoney=parseInt(playerMoney);
+            let bet=parseInt(betLabel.text);
+            if(totalMoney===0)
+            {
+                //window.alert("Not enough funds available");
+                let clickOK=confirm("Not enough funds available, please enter ok to restart!");
+                if(clickOK)
+                {
+                    window.location.reload();
+                }
+                
+            }
+            else if (bet>totalMoney)
+            {
+                window.alert("Please bet regarding your funds!!");
+            }
+            else
+            {
+                let reels=Reels();
 
-            leftReel.image=assets.getResult(reels[0]) as HTMLImageElement;
-            middleReel.image=assets.getResult(reels[1]) as HTMLImageElement;
-            rightReel.image=assets.getResult(reels[2]) as HTMLImageElement;
-            Credit(playerMoney);
+                leftReel.image=assets.getResult(reels[0]) as HTMLImageElement;
+                middleReel.image=assets.getResult(reels[1]) as HTMLImageElement;
+                rightReel.image=assets.getResult(reels[2]) as HTMLImageElement;
+                Credit(playerMoney);
+            }
         });
 
         bet1Button.on("click",()=>
@@ -201,12 +220,16 @@ e.g. Bar - Orange - Banana */
 
         bet10Button.on("click",()=>
         {
+            
             betLabel.text="10";
+            
         });
 
         bet100Button.on("click",()=>
         {
+            
             betLabel.text="100";
+        
         });
 
         betMaxButton.on("click",()=>
@@ -214,6 +237,7 @@ e.g. Bar - Orange - Banana */
             betLabel.text=playerMoney;
         });
     }
+    //coverting string playerMoney value to int and then make it reverse to store string value to playerMoney
     function Credit(Money:string)
     {
         let money=parseInt(Money,10);

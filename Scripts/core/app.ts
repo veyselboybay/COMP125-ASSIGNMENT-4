@@ -27,6 +27,9 @@
     let blanks = 0;
 
     let playerMoney="1000";
+    let winnings=0;
+    
+    
 
     let manifest:Core.Item[]=[
         {id:"background",src:"./Assets/images/background.png"},
@@ -41,7 +44,7 @@
         {id:"blank",src:"./Assets/images/blank.gif"},
         {id:"cherry",src:"./Assets/images/cherry.gif"},
         {id:"genericButton",src:"./Assets/images/genericButton.png"},
-        {id:"grapes",src:"./Assets/images/grapes.gif"},
+        {id:"grape",src:"./Assets/images/grapes.gif"},
         {id:"orange",src:"./Assets/images/orange.gif"},
         {id:"seven",src:"./Assets/images/seven.gif"},
         {id:"spinButton",src:"./Assets/images/spinButton.png"},
@@ -105,10 +108,10 @@
         creditLabel=new UIobjects.Label(playerMoney,"20px","Consolas","#FF0000",Config.Screen.CENTER_X-95,Config.Screen.CENTER_Y+108,true);
         stage.addChild(creditLabel);
 
-        winningsLabel=new UIobjects.Label("99999999","20px","Consolas","#FF0000",Config.Screen.CENTER_X+95,Config.Screen.CENTER_Y+108,true);
+        winningsLabel=new UIobjects.Label("0","20px","Consolas","#FF0000",Config.Screen.CENTER_X+95,Config.Screen.CENTER_Y+108,true);
         stage.addChild(winningsLabel);
 
-        betLabel=new UIobjects.Label("0000","20px","Consolas","#FF0000",Config.Screen.CENTER_X,Config.Screen.CENTER_Y+108,true);
+        betLabel=new UIobjects.Label("0","20px","Consolas","#FF0000",Config.Screen.CENTER_X,Config.Screen.CENTER_Y+108,true);
         stage.addChild(betLabel);
 
         leftReel=new Core.GameObject("bell",Config.Screen.CENTER_X-79,Config.Screen.CENTER_Y-13,true);
@@ -122,6 +125,18 @@
 
         betLine=new Core.GameObject("bet_line",Config.Screen.CENTER_X,Config.Screen.CENTER_Y-13,true);
         stage.addChild(betLine);
+    }
+
+    function resetFruitTally() :void
+    {
+        grapes = 0;
+        bananas = 0;
+        oranges = 0;
+        cherries = 0;
+        bars = 0;
+        bells = 0;
+        sevens = 0;
+        blanks = 0;
     }
 
     function checkRange(value:number, lowerBounds:number, upperBounds:number):number|boolean {
@@ -148,7 +163,7 @@ e.g. Bar - Orange - Banana */
                     blanks++;
                     break;
                 case checkRange(outCome[spin], 28, 37): // 15.4% probability
-                    betLine[spin] = "grapes";
+                    betLine[spin] = "grape";
                     grapes++;
                     break;
                 case checkRange(outCome[spin], 38, 46): // 13.8% probability
@@ -200,9 +215,13 @@ e.g. Bar - Orange - Banana */
             }
             else if (bet>totalMoney)
             {
-                window.alert("Please bet regarding your funds!!");
+                window.alert("Take a look at your funds!!");
             }
-            else
+            else if(bet==0)
+            {
+                window.alert("Please enter bet amount!");
+            }
+            else 
             {
                 let reels=Reels();
 
@@ -210,6 +229,8 @@ e.g. Bar - Orange - Banana */
                 middleReel.image=assets.getResult(reels[1]) as HTMLImageElement;
                 rightReel.image=assets.getResult(reels[2]) as HTMLImageElement;
                 Credit(playerMoney);
+                determineWinnings();
+                resetFruitTally();
             }
         });
 
@@ -251,6 +272,90 @@ e.g. Bar - Orange - Banana */
     {
         buildInterface();
         interfaceLogic();
+    }
+
+
+    function determineWinnings():void
+    {
+        let playerBet=parseInt(betLabel.text,10);
+        
+        if (blanks == 0)
+        {
+            if (grapes == 3) {
+               winnings = playerBet * 10;
+               winningsLabel.text=winnings.toString();
+            }
+            else if(bananas == 3) {
+                winnings = playerBet * 20;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (oranges == 3) {
+                winnings = playerBet * 30;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (cherries == 3) {
+                winnings = playerBet * 40;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (bars == 3) {
+                winnings = playerBet * 50;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (bells == 3) {
+                winnings = playerBet * 75;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (sevens == 3) {
+                winnings = playerBet * 100;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (grapes == 2) {
+                winnings = playerBet * 2;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (bananas == 2) {
+                winnings = playerBet * 2;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (oranges == 2) {
+                winnings = playerBet * 3;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (cherries == 2) {
+                winnings = playerBet * 4;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (bars == 2) {
+                winnings = playerBet * 5;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (bells == 2) {
+                winnings = playerBet * 10;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (sevens == 2) {
+                winnings = playerBet * 20;
+                winningsLabel.text=winnings.toString();
+            }
+            else if (sevens == 1) {
+                winnings = playerBet * 5;
+                winningsLabel.text=winnings.toString();
+            }
+            else {
+                winnings = playerBet * 1;
+                winningsLabel.text=winnings.toString();
+            }
+            
+            
+            //winNumber++;
+            //showWinMessage();
+        }
+        else
+        {
+            //lossNumber++;
+            //showLossMessage();
+        }
+        
     }
     
     

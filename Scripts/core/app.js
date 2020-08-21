@@ -23,6 +23,7 @@
     let bells = 0;
     let sevens = 0;
     let blanks = 0;
+    let playerMoney = "1000";
     let manifest = [
         { id: "background", src: "./Assets/images/background.png" },
         { id: "banana", src: "./Assets/images/banana.gif" },
@@ -76,11 +77,11 @@
         stage.addChild(betMaxButton);
         jackPotLabel = new UIobjects.Label("99999999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, 65, true);
         stage.addChild(jackPotLabel);
-        creditLabel = new UIobjects.Label("99999999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X - 95, Config.Screen.CENTER_Y + 108, true);
+        creditLabel = new UIobjects.Label(playerMoney, "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X - 95, Config.Screen.CENTER_Y + 108, true);
         stage.addChild(creditLabel);
         winningsLabel = new UIobjects.Label("99999999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X + 95, Config.Screen.CENTER_Y + 108, true);
         stage.addChild(winningsLabel);
-        betLabel = new UIobjects.Label("9999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y + 108, true);
+        betLabel = new UIobjects.Label("0000", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y + 108, true);
         stage.addChild(betLabel);
         leftReel = new Core.GameObject("bell", Config.Screen.CENTER_X - 79, Config.Screen.CENTER_Y - 13, true);
         stage.addChild(leftReel);
@@ -149,19 +150,27 @@ e.g. Bar - Orange - Banana */
             leftReel.image = assets.getResult(reels[0]);
             middleReel.image = assets.getResult(reels[1]);
             rightReel.image = assets.getResult(reels[2]);
+            Credit(playerMoney);
         });
         bet1Button.on("click", () => {
-            console.log(`bet1Button button clicked.!!`);
+            betLabel.text = "1";
         });
         bet10Button.on("click", () => {
-            console.log(`bet10Button button clicked.!!`);
+            betLabel.text = "10";
         });
         bet100Button.on("click", () => {
-            console.log(`bet100Button button clicked.!!`);
+            betLabel.text = "100";
         });
         betMaxButton.on("click", () => {
-            console.log(`betMaxButton button clicked.!!`);
+            betLabel.text = playerMoney;
         });
+    }
+    function Credit(Money) {
+        let money = parseInt(Money, 10);
+        let bet = parseInt(betLabel.text, 10);
+        money -= bet;
+        playerMoney = money.toString();
+        creditLabel.text = playerMoney;
     }
     function Main() {
         buildInterface();

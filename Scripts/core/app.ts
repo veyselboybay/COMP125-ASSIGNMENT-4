@@ -26,6 +26,8 @@
     let sevens = 0;
     let blanks = 0;
 
+    let jackpot = 5000;
+
     let playerMoney="1000";
     let winnings=0;
     
@@ -90,8 +92,6 @@
 
         bet1Button=new UIobjects.Button("bet1Button",Config.Screen.CENTER_X+-135,Config.Screen.CENTER_Y+177,true);
         stage.addChild(bet1Button);
-
-        
 
         bet10Button=new UIobjects.Button("bet10Button",Config.Screen.CENTER_X+-68,Config.Screen.CENTER_Y+177,true);
         stage.addChild(bet10Button);
@@ -230,6 +230,7 @@ e.g. Bar - Orange - Banana */
                 rightReel.image=assets.getResult(reels[2]) as HTMLImageElement;
                 Credit(playerMoney);
                 determineWinnings();
+                                  
                 resetFruitTally();
             }
         });
@@ -268,6 +269,17 @@ e.g. Bar - Orange - Banana */
         creditLabel.text=playerMoney;
     }
 
+    function checkJackPot() :void
+    {
+        /* compare two random values */
+        var jackPotTry = Math.floor(Math.random() * 51 + 1);
+        var jackPotWin = Math.floor(Math.random() * 51 + 1);
+        if (jackPotTry == jackPotWin) {
+            alert("You Won the $" + jackpot + " Jackpot!!");
+            jackPotLabel.text="JACKPOT!";
+        }
+    }
+
     function Main():void
     {
         buildInterface();
@@ -284,30 +296,37 @@ e.g. Bar - Orange - Banana */
             if (grapes == 3) {
                winnings = playerBet * 10;
                winningsLabel.text=winnings.toString();
+               checkJackPot();
             }
             else if(bananas == 3) {
                 winnings = playerBet * 20;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (oranges == 3) {
                 winnings = playerBet * 30;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (cherries == 3) {
                 winnings = playerBet * 40;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (bars == 3) {
                 winnings = playerBet * 50;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (bells == 3) {
                 winnings = playerBet * 75;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (sevens == 3) {
                 winnings = playerBet * 100;
                 winningsLabel.text=winnings.toString();
+                checkJackPot();
             }
             else if (grapes == 2) {
                 winnings = playerBet * 2;
@@ -345,6 +364,10 @@ e.g. Bar - Orange - Banana */
                 winnings = playerBet * 1;
                 winningsLabel.text=winnings.toString();
             }
+            let total=parseInt(playerMoney);
+            total+=winnings;
+            playerMoney=total.toString();
+            creditLabel.text=playerMoney;
             
             
             //winNumber++;
